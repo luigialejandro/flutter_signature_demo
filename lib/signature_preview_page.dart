@@ -22,6 +22,12 @@ class _SignaturePreviewPageState extends State<SignaturePreviewPage> {
           leading: CloseButton(),
           title: Text('Storage Signature'),
           centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.done),
+              onPressed: () {},
+            )
+          ],
         ),
         body: Center(
           child: Image.memory(widget.signature),

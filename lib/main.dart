@@ -54,19 +54,39 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Firmado de solicitud Demo'),
+        centerTitle: true,
+        backgroundColor: Color(0xff731F3E),
       ),
       body: Column(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: Signature(
-              controller: controller,
-              //backgroundColor: Colors.black,
+            height: MediaQuery.of(context).size.height * 0.25,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Center(
+              child: Text(
+                'Realiza tu firma lo más parecido a la firma de la identificación dentro del recuadro y pulsa el botón Aceptar.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.45,
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                border: Border.all(width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Signature(
+              controller: controller,
+              backgroundColor: Colors.white,
+            ),
+          ),
+          Spacer(),
           buildButtons(context),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -74,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildButtons(BuildContext context) => Container(
-        color: Colors.black,
+        color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -94,6 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
             await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => SignaturePreviewPage(signature: signature),
             ));
+
+            controller.clear();
           }
         },
       );

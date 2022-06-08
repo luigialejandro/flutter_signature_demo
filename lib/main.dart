@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -37,7 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    controller = SignatureController();
+    controller = SignatureController(
+      penStrokeWidth: 3,
+      penColor: Colors.black,
+    );
   }
 
   @override
@@ -54,9 +58,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Spacer(),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Signature(
+              controller: controller,
+              //backgroundColor: Colors.black,
+            ),
+          ),
+          buildButtons(context),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  Widget buildButtons(BuildContext context) => Container(
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            buildCheck(context),
+            buildClear(),
+          ],
+        ),
+      );
+
+  Widget buildCheck(BuildContext context) => IconButton(
+        iconSize: 36,
+        icon: Icon(Icons.check, color: Colors.green),
+        onPressed: () {},
+      );
+
+  Widget buildClear() => IconButton(
+        iconSize: 36,
+        icon: Icon(Icons.clear, color: Colors.red),
+        onPressed: () => controller.clear(),
+      );
 }

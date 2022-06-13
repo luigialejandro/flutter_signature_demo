@@ -15,22 +15,45 @@ class SignaturePreviewPage extends StatefulWidget {
 }
 
 class _SignaturePreviewPageState extends State<SignaturePreviewPage> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
           leading: CloseButton(),
-          title: Text('Storage Signature'),
+          title: Text('Valida tu firma'),
           centerTitle: true,
+          backgroundColor: Color(0xff731F3E),
           actions: [
             IconButton(
               icon: Icon(Icons.done),
-              onPressed: () {},
+              onPressed: () => setState(() {
+                _isLoading = true;
+              }),
+
+              /*Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xff731F3E),
+                ),
+              ), */
             )
           ],
         ),
-        body: Center(
-          child: Image.memory(widget.signature),
-        ),
+        body: _isLoading
+            ? Center(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            : Center(
+                child: Image.memory(widget.signature),
+              ),
       );
 }

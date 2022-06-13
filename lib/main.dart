@@ -88,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Spacer(),
           buildButtons(context),
+          SizedBox(
+            height: 15,
+          )
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -98,13 +101,53 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            buildCheck(context),
-            buildClear(),
+            buildButton(
+                title: 'Limpiar',
+                icon: Icons.clear,
+                color: Color(0xff833F4C),
+                onClicked: () => controller.clear()),
+            buildButton(
+                title: 'Aceptar',
+                icon: Icons.check,
+                color: Color(0xffD9BCA3),
+                onClicked: () async {
+                  if (controller.isNotEmpty) {
+                    final signature = await exportSignature();
+
+                    await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          SignaturePreviewPage(signature: signature),
+                    ));
+
+                    controller.clear();
+                  }
+                }),
           ],
         ),
       );
 
-  Widget buildCheck(BuildContext context) => IconButton(
+  Widget buildButton({
+    required String title,
+    required IconData icon,
+    required VoidCallback onClicked,
+    required Color color,
+  }) =>
+      ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            primary: color,
+            onPrimary: Colors.white,
+            textStyle: TextStyle(fontSize: 20)),
+        child: Row(
+          children: [
+            Text(title),
+            const SizedBox(width: 10),
+            Icon(icon, size: 24),
+          ],
+        ),
+        onPressed: onClicked,
+      );
+
+  /*IconButton(
         iconSize: 36,
         icon: Icon(Icons.check, color: Colors.green),
         onPressed: () async {
@@ -119,12 +162,15 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
       );
+      */
 
+/*
   Widget buildClear() => IconButton(
         iconSize: 36,
         icon: Icon(Icons.clear, color: Colors.red),
         onPressed: () => controller.clear(),
       );
+*/
 
   Future<dynamic> exportSignature() async {
     final exportController = SignatureController(
